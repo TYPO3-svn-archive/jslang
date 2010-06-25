@@ -1,3 +1,6 @@
+2010-06-25 Christer <chrisv10@gmail.c.om>
+	* Fixed Bug #7993, concerning 4.4.0 compability
+
 2009-11-06 Morten Tranberg Hansen  <mth@cs.au.dk>
 
 	* initial code generated with kickstarter

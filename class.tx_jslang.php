@@ -46,7 +46,8 @@ class tx_jslang implements t3lib_Singleton {
 	public static function loadLL(array $params = array(), TYPO3AJAX &$ajaxObj) {
 		global $LANG;
 		$file= t3lib_div::_GET('file');
-		$ajaxObj->setContent($LANG->readLLfile($file));
+		$LL = t3lib_div::readLLfile($file, $LANG->lang, $LANG->charSet);
+		$ajaxObj->setContent($LL);
 		$ajaxObj->addContent('lang',$LANG->lang);
 		$ajaxObj->setContentFormat('json');
 	}
@@ -76,7 +77,9 @@ if(TYPO3.LOCAL_LANG==undefined) {
 ';
 		}
 
-		$labels .= $key . " = " . json_encode($LANG->readLLfile($file)) . ";";
+		$LL = t3lib_div::readLLfile($file, $LANG->lang, $LANG->charSet);
+		$labels .= $key . " = " . json_encode($LL) . ";";
+
 
 		$doc->JScodeArray[$key] = $labels;
 		$doc->JScodeArray['jslang'] = "
