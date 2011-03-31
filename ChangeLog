@@ -1,3 +1,7 @@
+2011-03-31 Mads Sandberg Brun  <msb@science.au.dk>
+	* Resolved conflict with TYPO3 cores definition of TYPO3.lang. See 't3lib_PageRenderer'.
+	  Changed TYPO3.lang to TYPO3.jslang.lang. The same is done for getLL and LOCAL_LANG.
+
 2010-06-25 Christer <chrisv10@gmail.c.om>
 	* Fixed Bug #7993, concerning 4.4.0 compability
 

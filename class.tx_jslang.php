@@ -54,8 +54,8 @@ class tx_jslang implements t3lib_Singleton {
 
 	/**
 	 * Loads a locallang file and adds it to the document header using ExtJS.
-	 * The labels will then be available in the frontend through 'TYPO3.lang' 
-	 * or 'TYPO3.lang.<suffix>' if $suffix is set.
+	 * The labels will then be available in the frontend through
+	 * 'TYPO3.jslang.getLL(label, suffix)'.
 	 *
 	 * @param	template $doc: The template object that the language labels are added to.
 	 * @param	string $file: The locallang file to add.
@@ -65,14 +65,14 @@ class tx_jslang implements t3lib_Singleton {
 	public static function addLL(template $doc, $file, $prefix = '') {
 		global $LANG;
 
-		$labels = '';
-		$key = 'TYPO3.LOCAL_LANG';
+		$labels = "Ext.namespace('TYPO3.jslang');";
+		$key = 'TYPO3.jslang.LOCAL_LANG';
 
 		if (!empty($prefix)) {
 			$key .= '.'.$prefix;
-			$labels = '
-if(TYPO3.LOCAL_LANG==undefined) {
-  TYPO3.LOCAL_LANG = {};
+			$labels .= '
+if(TYPO3.jslang.LOCAL_LANG==undefined) {
+  TYPO3.jslang.LOCAL_LANG = {};
 }
 ';
 		}
@@ -83,25 +83,25 @@ if(TYPO3.LOCAL_LANG==undefined) {
 
 		$doc->JScodeArray[$key] = $labels;
 		$doc->JScodeArray['jslang'] = "
-Ext.namespace('TYPO3');
-TYPO3.lang = '".$LANG->lang."';
-TYPO3.getLL = function(label, prefix) {
+Ext.namespace('TYPO3.jslang');
+TYPO3.jslang.lang = '".$LANG->lang."';
+TYPO3.jslang.getLL = function(label, prefix) {
 
-if(TYPO3.LOCAL_LANG==undefined) {
-  return 'ERROR: TYPO3.LOCAL_LANG undefined';
+if(TYPO3.jslang.LOCAL_LANG==undefined) {
+  return 'ERROR: TYPO3.jslang.LOCAL_LANG undefined';
 }
 
 if(prefix) {
-  local_lang = TYPO3.LOCAL_LANG[prefix];
+  local_lang = TYPO3.jslang.LOCAL_LANG[prefix];
   if(local_lang==undefined) {
-    return 'ERROR: TYPO3.LOCAL_LANG['+prefix+'] undefined';
+    return 'ERROR: TYPO3.jslang.LOCAL_LANG['+prefix+'] undefined';
   }
 } else {
-  local_lang = TYPO3.LOCAL_LANG;
+  local_lang = TYPO3.jslang.LOCAL_LANG;
 }
 
-if(local_lang[TYPO3.lang]!=undefined && local_lang[TYPO3.lang][label]) {
-  return local_lang[TYPO3.lang][label];
+if(local_lang[TYPO3.jslang.lang]!=undefined && local_lang[TYPO3.jslang.lang][label]) {
+  return local_lang[TYPO3.jslang.lang][label];
 } else if(local_lang['default']!=undefined && local_lang['default'][label]) {
   return local_lang['default'][label];
 } else {
